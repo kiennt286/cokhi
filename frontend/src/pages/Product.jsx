@@ -6,7 +6,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import 'swiper/css/zoom';
-import { products } from '../assets/assets';
 import RelatedProduct from '../components/RelatedProduct';
 import { ShopContext } from '../context/ShopContext';
 import leftIcon from '../assets/left.png'; 
@@ -15,7 +14,7 @@ import BreadcrumbBar from '../components/BreadcrumbBar';
 
 const Product = () => {
   const { brand, slug } = useParams();
-  const { addToCart } = useContext(ShopContext);
+  const { addToCart, products } = useContext(ShopContext);
 
   // Refs
   const thumbsSwiperRef = useRef(null);
@@ -24,7 +23,7 @@ const Product = () => {
   // Find product using useMemo to avoid recalculation
   const product = useMemo(() => 
     products.find(p => p.slug === slug && p.brandSlug?.toLowerCase() === brand.toLowerCase()),
-    [brand, slug]
+    [brand, slug, products]
   );
 
   // Core states

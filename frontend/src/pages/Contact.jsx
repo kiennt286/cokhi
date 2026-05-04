@@ -42,7 +42,7 @@ const Contact = () => {
             <div className="border border-gray-200 bg-[#f8fafc] p-4">
               <p className="text-xs text-gray-500 font-montserrat">Hotline</p>
               <a className="mt-1 block font-montserrat font-semibold hover:underline" href="tel:+84900000000">
-                0900 000 000
+                0966 148 632
               </a>
             </div>
             <div className="border border-gray-200 bg-[#f8fafc] p-4">
@@ -54,7 +54,7 @@ const Contact = () => {
             <div className="border border-gray-200 bg-[#f8fafc] p-4 sm:col-span-2">
               <p className="text-xs text-gray-500 font-montserrat">Địa chỉ</p>
               <p className="mt-1 font-montserrat font-semibold">
-                Bắc Ninh, Việt Nam
+                Hà Nội, Việt Nam
               </p>
             </div>
           </div>

@@ -1,11 +1,32 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { knowledgePosts } from '../data/knowledgePosts';
 import BreadcrumbBar from '../components/BreadcrumbBar';
+import { api } from "../lib/api";
 
 const KnowledgeDetail = () => {
   const { slug } = useParams();
-  const post = knowledgePosts.find((item) => item.slug === slug);
+  const [post, setPost] = React.useState(null);
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const fetchPost = async () => {
+      try {
+        const data = await api.getPostBySlug(slug);
+        if (isMounted && data?.post) {
+          setPost(data.post);
+        }
+      } catch {
+        setPost(null);
+      }
+    };
+
+    fetchPost();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [slug]);
 
   if (!post) {
     return (
@@ -45,13 +66,20 @@ const KnowledgeDetail = () => {
       </Link>
 
       <div className="mt-4">
-        <p className="font-montserrat text-xs tracking-[0.2em] text-[#ED3524]">GÓC KIẾN THỨC</p>
         <h1 className="font-montserrat font-extrabold text-3xl mt-2">{post.title}</h1>
         <p className="font-montserrat text-sm text-gray-500 mt-2">{post.readTime}</p>
       </div>
 
       {post.cover ? (
-        <img src={post.cover} alt={post.title} className="w-full max-w-4xl mt-6 h-[360px] object-cover border border-gray-200" />
+        <img
+          src={post.cover}
+          alt={post.title}
+          className="w-full max-w-4xl mt-6 h-[360px] object-cover border border-gray-200"
+          onError={(event) => {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = "/herobg.png";
+          }}
+        />
       ) : null}
 
       <div className="max-w-4xl mt-6 space-y-4">

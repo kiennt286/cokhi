@@ -2,35 +2,31 @@ import React from 'react';
 
 const QuickContactSection = () => {
   return (
-    <section id="lien-he" className="py-16 bg-[#0f172a] text-white">
-      <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw] grid lg:grid-cols-2 gap-8 items-center">
-        <div>
-          <p className="font-montserrat text-sm tracking-[0.2em] text-orange-300 mb-2">CALL TO ACTION</p>
-          <h2 className="font-montserrat font-extrabold text-3xl mb-4">Liên Hệ Để Nhận Tư Vấn Kỹ Thuật</h2>
-          <p className="font-montserrat text-slate-300">
-            Gửi thông tin vật liệu và công đoạn gia công, đội ngũ kỹ thuật sẽ đề xuất phương án dao
-            cụ phù hợp để bạn triển khai nhanh.
-          </p>
-        </div>
+    <section id="lien-he" className="">
+      <div className="border border-gray-200 bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-3">
+          <a href="tel:0966148632" className="p-6 border-b md:border-b-0 md:border-r border-gray-200 cursor-pointer hover:bg-gray-200 transition">
+            <p className="font-montserrat text-xs tracking-[0.18em] text-[#ED3524] mb-2">
+              SỐ ĐIỆN THOẠI
+            </p>
+            <p className="font-montserrat text-lg font-semibold text-gray-900">
+              0966148632
+            </p>
+          </a>
 
-        <div className="border border-slate-600 bg-white/5 p-6 font-montserrat">
-          <p className="text-slate-300 mb-2">Ưu tiên liên hệ nhanh qua</p>
-          <p className="text-sm text-slate-400 mb-5">
-            Zalo hoặc gọi điện (nút nổi bên phải màn hình). Bạn có thể bấm “Xem danh mục” để tham khảo trước.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="/collection"
-              className="inline-block border border-slate-300 px-5 py-3 font-semibold hover:bg-white hover:text-[#0f172a] transition-colors"
-            >
-              Xem danh mục
-            </a>
-            <a
-              href="#lien-he"
-              className="inline-block bg-[#ED3524] px-5 py-3 font-semibold hover:bg-[#cf2f20] transition-colors"
-            >
-              Nhận tư vấn
-            </a>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Hà+Nội"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group p-6 border-b md:border-b-0 md:border-r border-gray-200 cursor-pointer hover:bg-gray-200 transition"
+          >
+            <p className="font-montserrat text-xs tracking-[0.18em] text-[#ED3524] mb-2">ĐỊA CHỈ</p>
+            <p className="font-montserrat text-lg font-semibold text-gray-900">THÀNH PHỐ HÀ NỘI</p>
+          </a>
+
+          <div className="p-6 hover:bg-gray-200 transition">
+            <p className="font-montserrat text-xs tracking-[0.18em] text-[#ED3524] mb-2">THỜI GIAN LÀM VIỆC</p>
+            <p className="font-montserrat text-lg font-semibold text-gray-900">Thứ 2 - Thứ 7: 8:00 - 18:00</p>
           </div>
         </div>
       </div>

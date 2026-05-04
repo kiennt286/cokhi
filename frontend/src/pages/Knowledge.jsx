@@ -1,9 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { knowledgePosts } from '../data/knowledgePosts';
 import BreadcrumbBar from '../components/BreadcrumbBar';
+import { api } from "../lib/api";
 
 const Knowledge = () => {
+  const [posts, setPosts] = React.useState([]);
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const fetchPosts = async () => {
+      try {
+        const data = await api.getPosts();
+        if (isMounted && Array.isArray(data?.posts)) {
+          setPosts(data.posts);
+        }
+      } catch {
+        setPosts([]);
+      }
+    };
+
+    fetchPosts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="border-t border-gray-300 pt-10 pb-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
       <div className="mb-4">
@@ -19,11 +42,19 @@ const Knowledge = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {knowledgePosts.map((article) => (
+        {posts.map((article) => (
           <article key={article.slug} className="border border-gray-200 bg-white overflow-hidden">
             <Link to={`/kien-thuc/${article.slug}`}>
               {article.cover ? (
-                <img src={article.cover} alt={article.title} className="w-full h-52 object-cover" />
+                <img
+                  src={article.cover}
+                  alt={article.title}
+                  className="w-full h-52 object-cover"
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = "/herobg.png";
+                  }}
+                />
               ) : (
                 <div className="w-full h-52 bg-gray-100" />
               )}

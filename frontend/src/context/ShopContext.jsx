@@ -1,12 +1,14 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState} from "react";
 import { products } from "../assets/assets";
+import { api } from "../lib/api";
 
 export const ShopContext = createContext();
 
 const ShopContextProvider = ({ children }) => {
 
   const [cartItems, setCartItems] = useState({});
+  const [productList, setProductList] = useState(products);
 
   const currency = "VNĐ";
 
@@ -90,8 +92,30 @@ const ShopContextProvider = ({ children }) => {
   };
 
   const clearCart = () => setCartItems({});
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const fetchProducts = async () => {
+      try {
+        const data = await api.getProducts();
+        if (isMounted && Array.isArray(data?.products) && data.products.length > 0) {
+          setProductList(data.products);
+        }
+      } catch {
+        // keep fallback static products when API is unavailable
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const value = {
-    products,
+    products: productList,
     currency,
     formatPrice,
     cartItems,

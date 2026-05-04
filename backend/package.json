@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "seed:admin": "node scripts/seedAdmin.js",
+    "seed:content": "node scripts/seedContent.js"
   },
   "author": "",
   "license": "ISC",
