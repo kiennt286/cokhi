@@ -64,7 +64,7 @@ const Knowledge = () => {
               <p className="font-montserrat text-xs text-gray-500">{article.readTime}</p>
               <h2 className="font-montserrat font-bold text-lg mt-2">{article.title}</h2>
               <p className="font-montserrat text-sm text-gray-600 mt-2">{article.excerpt}</p>
-              <Link to={`/kien-thuc/${article.slug}`} className="inline-block mt-4 text-sm text-[#ED3524] font-semibold hover:underline">
+              <Link to={`/kien-thuc/${article.slug}`} className=" font-montserrat inline-block mt-4 text-sm text-[#ED3524] hover:underline">
                 Đọc bài viết
               </Link>
             </div>
