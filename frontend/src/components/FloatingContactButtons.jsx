@@ -1,7 +1,7 @@
 import React from 'react';
 
-const PHONE_NUMBER = '09xxxxxxxx';
-const ZALO_NUMBER = '09xxxxxxxx';
+const PHONE_NUMBER = '0966148632';
+const ZALO_NUMBER = '84966148632';
 
 const FloatingContactButtons = () => {
   const telHref = `tel:${PHONE_NUMBER}`;
@@ -9,37 +9,31 @@ const FloatingContactButtons = () => {
 
   return (
     <div className="fixed right-4 bottom-4 z-[60] flex flex-col gap-3">
+
+      {/* Zalo */}
       <a
         href={zaloHref}
         target="_blank"
         rel="noreferrer"
-        className="flex items-center gap-2 bg-white border border-gray-200 shadow-lg px-4 py-3 hover:shadow-xl transition"
+        className="flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-lg border border-gray-200 hover:scale-105 transition"
+        aria-label="Chat Zalo"
       >
         <img
           src="/icon_zalo.png"
           alt="Zalo"
-          className="w-9 h-9 object-contain"
+          className="w-7 h-7 object-contain"
         />
-
-        <div className="font-montserrat leading-tight">
-          <p className="text-sm font-bold text-gray-900">Chat Zalo</p>
-          <p className="text-xs text-gray-500">Tư vấn nhanh</p>
-        </div>
       </a>
 
+      {/* Call */}
       <a
         href={telHref}
-        className="flex items-center gap-2 bg-[#ED3524] text-white shadow-lg px-4 py-3 hover:bg-[#cf2f20] transition"
+        className="flex items-center justify-center w-14 h-14 rounded-full bg-red-500 text-white shadow-lg hover:bg-red-600 hover:scale-105 transition"
         aria-label="Gọi tư vấn"
       >
-        <span className="w-9 h-9 grid place-items-center bg-white/15 font-extrabold">
-          ☎
-        </span>
-        <div className="font-montserrat leading-tight">
-          <p className="text-sm font-bold">Gọi tư vấn</p>
-          <p className="text-xs text-white/80">{PHONE_NUMBER}</p>
-        </div>
+        <span className="text-lg font-bold">☎</span>
       </a>
+
     </div>
   );
 };
