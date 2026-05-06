@@ -35,7 +35,7 @@ const KnowledgePreviewSection = () => {
   return (
     <section className="py-16 bg-white">
       {/* HEADER */}
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap container mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-6 flex-wrap container mx-auto">
         <div>
           <p className="font-montserrat text-sm tracking-[0.2em] text-[#ED3524] mb-2 uppercase">
             Góc kiến thức
@@ -131,7 +131,7 @@ const KnowledgePreviewSection = () => {
         </Swiper>
 
         {/* CUSTOM PAGINATION */}
-        <div className="knowledge-preview-pagination mt-8 flex justify-center gap-3">
+        <div className="knowledge-preview-pagination mt-6 flex justify-center gap-3">
           {[0, 1, 2].map((i) => (
             <button
               key={i}

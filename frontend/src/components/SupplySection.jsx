@@ -34,7 +34,7 @@ const SupplySection = () => {
       >
         DANH MỤC SẢN PHẨM
       </p>
-      <div className="flex items-flex-end justify-between gap-4">
+      <div className="flex items-flex-end justify-between gap-4 mb-6 flex-wrap container mx-auto">
         <h2
           className="font-montserrat font-extrabold text-2xl"
         >
