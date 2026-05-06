@@ -1,15 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Navigation, Autoplay } from 'swiper/modules';
 import { api } from '../lib/api';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
 const KnowledgePreviewSection = () => {
   const [posts, setPosts] = React.useState([]);
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const swiperRef = React.useRef(null);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -18,7 +19,7 @@ const KnowledgePreviewSection = () => {
       try {
         const data = await api.getPosts();
         if (isMounted && Array.isArray(data?.posts)) {
-          setPosts(data.posts.slice(0, 10));
+          setPosts(data.posts.slice(0, 12));
         }
       } catch {
         setPosts([]);
@@ -26,7 +27,6 @@ const KnowledgePreviewSection = () => {
     };
 
     fetchPosts();
-
     return () => {
       isMounted = false;
     };
@@ -34,62 +34,78 @@ const KnowledgePreviewSection = () => {
 
   return (
     <section className="py-16 bg-white">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+      {/* HEADER */}
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap container mx-auto">
         <div>
-          <p className="font-montserrat text-sm tracking-[0.2em] text-[#ED3524] mb-2">
-            GÓC KIẾN THỨC
+          <p className="font-montserrat text-sm tracking-[0.2em] text-[#ED3524] mb-2 uppercase">
+            Góc kiến thức
           </p>
-          <h2 className="font-montserrat font-extrabold text-2xl">
+          <h2 className="font-montserrat font-extrabold text-2xl uppercase">
             Kinh Nghiệm Gia Công CNC
           </h2>
         </div>
 
         <Link
           to="/kien-thuc"
-          className="font-montserrat text-sm font-semibold text-[#ED3524] hover:underline"
+          className="font-montserrat text-sm text-[#ED3524] hover:underline self-end"
         >
           Xem tất cả bài viết
         </Link>
       </div>
 
-      <div className="relative">
+      <div className="relative container mx-auto">
         <Swiper
-          modules={[Navigation, Pagination, Autoplay]}
+          modules={[Navigation, Autoplay]}
           navigation={false}
-          loop
+          loop={posts.length > 4}
           spaceBetween={16}
           slidesPerView={1}
+          slidesPerGroup={1} // 👉 FIX: swipe từng card
+
           autoplay={{
-            delay: 3500,
+            delay: 4500,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
-          pagination={{
-            el: '.knowledge-preview-pagination',
-            clickable: true,
+
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
+
+          onSlideChange={(swiper) => {
+            const perView =
+              swiper.params.breakpoints?.[swiper.currentBreakpoint]?.slidesPerView ||
+              swiper.params.slidesPerView ||
+              1;
+
+            const groupIndex = Math.floor(swiper.realIndex / perView);
+            setActiveIndex(groupIndex);
           }}
-          className="knowledge-preview-swiper"
+
           breakpoints={{
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 4 },
+            640: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 4,
+            },
           }}
+
+          className="knowledge-preview-swiper"
         >
           {posts.map((post) => (
             <SwiperSlide key={post.slug} className="h-auto">
-              <article className="border border-gray-200 bg-[#f8fafc] overflow-hidden h-full flex flex-col">
-                <Link to={`/kien-thuc/${post.slug}`}>
+              <article className="border border-gray-200 bg-[#f8fafc] overflow-hidden h-full flex flex-col group">
+                <Link to={`/kien-thuc/${post.slug}`} className="overflow-hidden">
                   {post.cover ? (
                     <img
                       src={post.cover}
                       alt={post.title}
-                      className="block w-full aspect-[1/1] object-cover"
-                      onError={(event) => {
-                        event.currentTarget.onerror = null;
-                        event.currentTarget.src = "/herobg.png";
+                      className="block w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-110"
+                      onError={(e) => {
+                        e.currentTarget.src = "/herobg.png";
                       }}
                     />
                   ) : (
-                    <div className="w-full aspect-[1/1] bg-gray-200" />
+                    <div className="w-full aspect-square bg-gray-200" />
                   )}
                 </Link>
 
@@ -114,8 +130,31 @@ const KnowledgePreviewSection = () => {
           ))}
         </Swiper>
 
-        {/* Pagination */}
-        <div className="knowledge-preview-pagination mt-4 flex justify-center" />
+        {/* CUSTOM PAGINATION */}
+        <div className="knowledge-preview-pagination mt-8 flex justify-center gap-3">
+          {[0, 1, 2].map((i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const swiper = swiperRef.current;
+                if (!swiper) return;
+
+                const perView =
+                  swiper.params.breakpoints?.[swiper.currentBreakpoint]?.slidesPerView ||
+                  swiper.params.slidesPerView ||
+                  1;
+
+                swiper.slideToLoop(i * perView);
+              }}
+              className={`swiper-pagination-bullet transition-all duration-300 ${
+                activeIndex === i
+                  ? 'swiper-pagination-bullet-active'
+                  : ''
+              }`}
+              aria-label={`Go to slide group ${i + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

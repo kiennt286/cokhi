@@ -5,155 +5,163 @@ import BreadcrumbBar from '../components/BreadcrumbBar';
 
 const Collection = () => {
   const { products } = useContext(ShopContext);
+
   const [showFilter, setShowFilter] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [brandFilter, setBrandFilter] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 2000000000]); // Min-Max giá VNĐ
 
-  // State để fade-in
   const [visible, setVisible] = useState(false);
 
-  const toggleCategory = (e) => {
-    const value = e.target.value;
-    if (categoryFilter.includes(value)) {
-      setCategoryFilter(prev => prev.filter(item => item !== value));
-    } else {
-      setCategoryFilter(prev => [...prev, value]);
-    }
-  };
-
+  // Toggle brand
   const toggleBrand = (e) => {
     const value = e.target.value;
-    setBrandFilter(prev => prev.includes(value) ? prev.filter(i => i !== value) : [...prev, value]);
+    setBrandFilter(prev =>
+      prev.includes(value)
+        ? prev.filter(i => i !== value)
+        : [...prev, value]
+    );
   };
 
-  const handlePriceChange = (e) => {
-    const value = Number(e.target.value);
-    setPriceRange([priceRange[0], value]);
+  // Toggle category
+  const toggleCategory = (e) => {
+    const value = e.target.value;
+    setCategoryFilter(prev =>
+      prev.includes(value)
+        ? prev.filter(i => i !== value)
+        : [...prev, value]
+    );
   };
 
-  const filteredProducts = products.filter(product => 
+  // FILTER PRODUCTS
+  const filteredProducts = products.filter(product =>
     (categoryFilter.length === 0 || categoryFilter.includes(product.category)) &&
-    (brandFilter.length === 0 || brandFilter.includes(product.brand)) &&
-    product.price >= priceRange[0] && product.price <= priceRange[1]
+    (brandFilter.length === 0 || brandFilter.includes(product.brand))
   );
 
+  // COUNT CATEGORY
   const categoryCounts = products.reduce((acc, product) => {
     acc[product.category] = (acc[product.category] || 0) + 1;
     return acc;
   }, {});
 
+  // COUNT BRAND
   const brandCounts = products.reduce((acc, product) => {
     acc[product.brand] = (acc[product.brand] || 0) + 1;
     return acc;
   }, {});
 
-  // Bật fade-in khi filter hoặc products thay đổi
+  // Fade effect
   useEffect(() => {
     setVisible(false);
     const timer = setTimeout(() => setVisible(true), 10);
     return () => clearTimeout(timer);
-  }, [categoryFilter, brandFilter, priceRange, products]);
+  }, [categoryFilter, brandFilter, products]);
 
   return (
     <div className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw] pt-10 border-t border-gray-300 transition-opacity duration-300 ease-in ${visible ? 'opacity-100' : 'opacity-0'}`}>
+
       <div className="flex flex-col sm:flex-row gap-1 sm:gap-10">
 
-      {/* Filter Option */}
-      <div className='min-w-70'>
-        <p 
-          className='font-montserrat my-2 text-xl flex items-center cursor-pointer gap-2'
-          onClick={() => setShowFilter(!showFilter)}
-        >
-          Bộ lọc
-        </p>
+        {/* LEFT FILTER */}
+        <div className='min-w-70'>
 
-        <div className={`py-3 ${showFilter ? '' : 'hidden'} sm:block`}>
-          {/* Category */}
-          <p className='mb-3 text-sm font-medium'>Danh mục</p>
-          <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
-            {["Nam", "Nữ"].map(cat => (
-              <p className='flex gap-2' key={cat}>
-                <input 
-                  className='w-5' 
-                  type="checkbox" 
-                  value={cat} 
-                  checked={categoryFilter.includes(cat)}
-                  onChange={toggleCategory} 
-                /> 
-                {cat} ({categoryCounts[cat] || 0})
+          <p
+            className='font-montserrat text-xl font-bold flex items-center cursor-pointer gap-2'
+            onClick={() => setShowFilter(!showFilter)}
+          >
+            Danh mục
+          </p>
+          <hr className='mt-1' />
+
+          <div className={`py-3 ${showFilter ? '' : 'hidden'} sm:block`}>
+
+            {/* CATEGORY GROUP */}
+            <div className="mb-6">
+              <p className='font-montserrat mb-3 text-sm font-bold uppercase tracking-wide text-gray-900'>
+                Sản phẩm CNC
               </p>
-            ))}
-          </div>
 
-          {/* Brand */}
-          <p className='mb-3 mt-4 text-sm font-medium'>Thương hiệu</p>
-          <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
-            {Object.keys(brandCounts).map(brand => (
-              <p className='flex gap-2' key={brand}>
-                <input 
-                  className='w-5'
-                  type="checkbox" 
-                  value={brand} 
-                  checked={brandFilter.includes(brand)}
-                  onChange={toggleBrand} 
-                /> 
-                {brand} ({brandCounts[brand]})
+              <div className='flex flex-col gap-2 text-sm text-gray-700'>
+                {["Dao phay", "Dao tiện", "Mảnh chip", "Khoan", "Taro"].map(cat => (
+                  <label key={cat} className='flex items-center gap-2 cursor-pointer'>
+                    <input
+                      type="checkbox"
+                      className="w-4"
+                      value={cat}
+                      checked={categoryFilter.includes(cat)}
+                      onChange={toggleCategory}
+                    />
+                    {cat}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* BRAND GROUP */}
+            <div>
+              <p className='font-montserrat mb-3 text-sm font-bold uppercase tracking-wide text-gray-900'>
+                Thương hiệu
               </p>
-            ))}
+
+              <div className='flex flex-col gap-2 text-sm text-gray-700'>
+                {Object.keys(brandCounts).map(brand => (
+                  <label key={brand} className='flex items-center gap-2 cursor-pointer'>
+                    <input
+                      className='w-4'
+                      type="checkbox"
+                      value={brand}
+                      checked={brandFilter.includes(brand)}
+                      onChange={toggleBrand}
+                    />
+                    {brand} ({brandCounts[brand]})
+                  </label>
+                ))}
+              </div>
+            </div>
+
           </div>
-
-          {/* Price */}
-          <p className='mb-3 mt-4 text-sm font-medium'>Giá (0 - 2.000.000.000₫)</p>
-          <input
-            type="range"
-            min="0"
-            max="2000000000"
-            step="20000"
-            value={priceRange[1]}
-            onChange={handlePriceChange}
-            className="w-full"
-          />
-          <p className='text-sm mt-1'>Tối đa: {priceRange[1].toLocaleString('vi-VN')}₫</p>
-        </div>
-      </div>
-
-      {/* Product list */}
-      <div>
-        <div className="mb-3">
-          <BreadcrumbBar
-            items={[
-              { label: 'Trang chủ', to: '/' },
-              { label: 'Bộ sưu tập', to: '/collection' },
-              ...(categoryFilter.length > 0 ? [{ label: categoryFilter.join(', ') }] : []),
-            ]}
-          />
         </div>
 
-        {/* Product count */}
-        <p className="font-montserrat mb-4 text-lg">
-          Sản phẩm
-        </p>
+        {/* RIGHT PRODUCT LIST */}
+        <div>
 
-        {/* Product grid */}
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
-          {filteredProducts.map(product => (
-            <ProductItem
-              key={product._id}
-              id={product._id}
-              image={product.image}
-              name={product.name}
-              price={product.price}
-              brand={product.brand}
-              brandSlug={product.brandSlug}
-              slug={product.slug}
+          {/* BREADCRUMB */}
+          <div className="font-montserrat mb-3">
+            <BreadcrumbBar
+              items={[
+                { label: 'Trang chủ', to: '/' },
+                { label: 'Bộ sưu tập', to: '/collection' },
+                ...(categoryFilter.length > 0
+                  ? [{ label: categoryFilter.join(', ') }]
+                  : []),
+              ]}
             />
-          ))}
+          </div>
+
+          {/* TITLE */}
+          <p className="font-montserrat mb-4 text-lg">
+            Sản phẩm
+          </p>
+
+          {/* GRID */}
+          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
+            {filteredProducts.map(product => (
+              <ProductItem
+                key={product._id}
+                id={product._id}
+                image={product.image}
+                name={product.name}
+                price={product.price}
+                brand={product.brand}
+                brandSlug={product.brandSlug}
+                slug={product.slug}
+              />
+            ))}
+          </div>
+
         </div>
-      </div>
 
       </div>
-
     </div>
   );
 };

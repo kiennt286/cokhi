@@ -47,8 +47,8 @@ const Navbar = () => {
             
             {/* LOGO */}
             <NavLink to="/" className="flex flex-col items-center gap-1">
-              <p className="font-montserrat text-4xl font-black text-[#ED3524]">
-                Dụng Cụ CNC
+              <p className="font-montserrat text-4xl font-bold text-[#ED3524]">
+                CNC
               </p> 
             </NavLink>
 
