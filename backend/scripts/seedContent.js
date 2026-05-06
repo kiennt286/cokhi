@@ -1,42 +1,6 @@
 import "dotenv/config";
 import { connectDb } from "../config/db.js";
-import Product from "../models/Product.js";
 import Post from "../models/Post.js";
-
-const seedProducts = [
-  {
-    slug: "group-3",
-    name: "Nhóm hình 3",
-    brand: "Dụng cụ CNC Bắc Ninh",
-    brandSlug: "dung-cu-cnc-bac-ninh",
-    price: 0,
-    image: [],
-    description: "Hình nhóm sản phẩm 3. Liên hệ để được tư vấn và báo giá.",
-    category: "Nam",
-    stock: 999,
-    rating: 5,
-    reviews: 0,
-    bestseller: true,
-    discount: 0,
-    createdAtText: "2026-05-04",
-  },
-  {
-    slug: "group-4",
-    name: "Nhóm hình 4",
-    brand: "Dụng cụ CNC Bắc Ninh",
-    brandSlug: "dung-cu-cnc-bac-ninh",
-    price: 0,
-    image: [],
-    description: "Hình nhóm sản phẩm 4. Liên hệ để được tư vấn và báo giá.",
-    category: "Nữ",
-    stock: 999,
-    rating: 5,
-    reviews: 0,
-    bestseller: true,
-    discount: 0,
-    createdAtText: "2026-05-04",
-  },
-];
 
 const seedPosts = [
   {
@@ -198,15 +162,15 @@ const seedPosts = [
 const run = async () => {
   await connectDb(process.env.MONGO_URI);
 
-  for (const product of seedProducts) {
-    await Product.updateOne({ slug: product.slug }, { $set: product }, { upsert: true });
-  }
-
   for (const post of seedPosts) {
-    await Post.updateOne({ slug: post.slug }, { $set: post }, { upsert: true });
+    await Post.updateOne(
+      { slug: post.slug },
+      { $set: post },
+      { upsert: true }
+    );
   }
 
-  console.log("Seeded sample products and posts");
+  console.log("Seeded posts only");
   process.exit(0);
 };
 
