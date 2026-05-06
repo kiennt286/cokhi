@@ -22,7 +22,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="border-t border-gray-300 pt-10 pb-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
+    <div className="border-t border-gray-300 pt-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
       <div className="mb-4">
         <BreadcrumbBar items={[{ label: 'Trang chủ', to: '/' }, { label: 'Liên hệ' }]} />
       </div>
@@ -126,15 +126,15 @@ const Contact = () => {
         <div className="border border-gray-200 bg-white overflow-hidden">
           <div className="p-4 border-b border-gray-200">
             <p className="font-montserrat font-semibold">Bản đồ</p>
-            <p className="font-montserrat text-xs text-gray-500 mt-1">Khu vực: Bắc Ninh</p>
+            <p className="font-montserrat text-xs text-gray-500 mt-1">Khu vực: Hà Nội</p>
           </div>
           <div className="w-full aspect-[4/3]">
             <iframe
-              title="Bản đồ Bắc Ninh"
+              title="Google Maps Hà Nội"
               className="w-full h-full"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=105.998%2C21.125%2C106.154%2C21.235&layer=mapnik&marker=21.1861%2C106.0763"
+              src="https://www.google.com/maps?q=Hà+Nội,+Việt+Nam&z=12&output=embed"
             />
           </div>
           <div className="p-4 text-xs text-gray-500 font-montserrat">

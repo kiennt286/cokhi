@@ -28,12 +28,12 @@ const Knowledge = () => {
   }, []);
 
   return (
-    <div className="border-t border-gray-300 pt-10 pb-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
+    <div className="border-t border-gray-300 pt-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
       <div className="mb-4">
         <BreadcrumbBar items={[{ label: 'Trang chủ', to: '/' }, { label: 'Kiến thức cơ khí' }]} />
       </div>
       <div className="mb-8">
-        <p className="font-montserrat text-sm tracking-[0.2em] text-[#ED3524] mb-2">GÓC KIẾN THỨC</p>
+        <p className="font-montserrat text-sm tracking-[0.2em] text-[#ED3524] mb-3">GÓC KIẾN THỨC</p>
         <h1 className="font-montserrat font-extrabold text-3xl">Bài Viết Kỹ Thuật Cơ Khí</h1>
         <p className="font-montserrat text-gray-600 mt-3 max-w-3xl">
           Tổng hợp kiến thức thực tế về dao cụ và ứng dụng gia công CNC để bạn tham khảo trước khi
