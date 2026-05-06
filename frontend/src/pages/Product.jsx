@@ -204,7 +204,6 @@ const Product = () => {
         <div className="flex-1">
           <h1 className="font-montserrat text-2xl font-bold mt-2">{product.name}</h1>
           <p className="font-montserrat mt-5 text-gray-600">{product.brand}</p>
-          <p className='font-montserrat mt-5 text-sm text-gray-500'>{product.category}</p>
           <p className="font-montserrat text-2xl mt-5 font-semibold text-primary">
             {product.price.toLocaleString()} VNĐ
           </p>
@@ -274,12 +273,7 @@ const Product = () => {
                     <p>{product.stock} g</p>
                   </div>
                 )}
-                {product.category && (
-                  <div className="border-b border-gray-300 pb-2 last:border-b-0">
-                    <p className="font-semibold">Đối tượng</p>
-                    <p>{product.category}</p>
-                  </div>
-                )}
+            
                 {product.waterResistance && (
                   <div className="border-b border-gray-300 pb-2 last:border-b-0">
                     <p className="font-semibold">Chống nước</p>

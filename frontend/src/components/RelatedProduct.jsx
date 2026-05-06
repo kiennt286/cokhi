@@ -17,8 +17,8 @@ const RelatedProduct = ({ currentProductId, brand }) => {
 
   return (
     <div className='my-10'>
-      <div className='text-start py-8'>
-        <h2 className="font-gunken text-4xl font-bold">
+      <div className='text-start py-6'>
+        <h2 className="font-montserrat text-3xl font-bold">
           Sản phẩm liên quan
         </h2>
       </div>
