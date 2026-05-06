@@ -27,7 +27,7 @@ const SupplySection = () => {
   ];
 
   return (
-    <section className="py-12">
+    <section className="py-16 ">
       {/* Header */}
       <p
         className="font-montserrat text-sm tracking-[0.2em] text-[#ED3524] mb-2"

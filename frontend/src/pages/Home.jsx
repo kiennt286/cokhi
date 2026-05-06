@@ -14,9 +14,9 @@ const Home = () => {
 
       <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
         <AboutSection />
-        <hr className='border-gray-300 my-4' />
+        <hr className='border-gray-300 my-2' />
         <SupplySection />
-        <hr className='border-gray-300 my-4' />
+        <hr className='border-gray-300 my-2' />
 
         <KnowledgePreviewSection />
 
