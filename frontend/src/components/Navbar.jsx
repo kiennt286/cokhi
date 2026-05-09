@@ -73,7 +73,7 @@ const Navbar = () => {
             </Link>
 
             {/* CENTER MENU */}
-            <ul className="hidden lg:flex items-center gap-8 text-[15px] font-semibold text-gray-800">
+            <ul className="font-montserrat hidden lg:flex items-center gap-8 text-[15px] font-semibold text-gray-800">
 
               {navItems.map((item) => (
                 <li key={item.to}>
@@ -97,9 +97,9 @@ const Navbar = () => {
             </ul>
 
             {/* RIGHT */}
-            <div className="flex items-center gap-3 lg:gap-5">
+            <div className="flex items-center gap-2 lg:gap-5">
 
-              {/* SEARCH BOX DESKTOP */}
+              {/* SEARCH DESKTOP */}
               <div
                 className="
                   hidden md:flex
@@ -126,6 +126,7 @@ const Navbar = () => {
                   type="text"
                   placeholder="Tìm sản phẩm..."
                   className="
+                  font-montserrat
                     bg-transparent
                     outline-none
                     px-3
@@ -136,16 +137,17 @@ const Navbar = () => {
 
               </div>
 
-              {/* MOBILE SEARCH */}
-              <button
+              {/* SEARCH MOBILE */}
+              <div
                 className="
                   md:hidden
-                  w-[38px]
-                  h-[38px]
-                  rounded-full
+                  flex items-center
+                  bg-[#f5f5f5]
                   border border-gray-300
-                  flex items-center justify-center
-                  bg-white
+                  rounded-full
+                  px-3
+                  h-[38px]
+                  w-[130px]
                 "
               >
 
@@ -155,7 +157,19 @@ const Navbar = () => {
                   className="w-4 opacity-70"
                 />
 
-              </button>
+                <input
+                  type="text"
+                  placeholder="Tìm..."
+                  className="
+                    bg-transparent
+                    outline-none
+                    ml-2
+                    text-sm
+                    w-full
+                  "
+                />
+
+              </div>
 
               {/* CART */}
               <Link
@@ -207,7 +221,7 @@ const Navbar = () => {
                 "
               >
 
-                <span className="text-[11px] text-gray-500 font-medium">
+                <span className="font-montserrat text-[12px] text-gray-600 font-medium">
                   Hotline hỗ trợ
                 </span>
 
@@ -243,12 +257,25 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* OVERLAY */}
+        {visible && (
+          <div
+            onClick={() => setVisible(false)}
+            className="
+              fixed inset-0
+              bg-black/40
+              z-40
+              lg:hidden
+            "
+          />
+        )}
+
         {/* MOBILE SIDEBAR */}
         <div
           className={`
             fixed top-0 right-0 bottom-0
             bg-white
-            z-50
+            z-[60]
             transition-all duration-300
             overflow-hidden
             shadow-2xl
@@ -256,12 +283,12 @@ const Navbar = () => {
           `}
         >
 
-          <div className="flex flex-col h-full">
+          <div className="font-montserrat flex flex-col h-full">
 
             {/* TOP */}
             <div className="flex items-center justify-between px-5 h-[68px] border-b">
 
-              <span className="font-bold text-lg">
+              <span className="font-montserrat font-bold text-lg">
                 MENU
               </span>
 
@@ -274,42 +301,6 @@ const Navbar = () => {
                 />
 
               </button>
-
-            </div>
-
-            {/* SEARCH */}
-            <div className="px-5 py-4 border-b">
-
-              <div
-                className="
-                  flex items-center
-                  bg-gray-100
-                  border border-gray-200
-                  rounded-full
-                  px-4
-                  h-[44px]
-                "
-              >
-
-                <img
-                  src={search}
-                  alt=""
-                  className="w-4 opacity-60"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Tìm sản phẩm..."
-                  className="
-                    bg-transparent
-                    outline-none
-                    ml-3
-                    w-full
-                    text-sm
-                  "
-                />
-
-              </div>
 
             </div>
 
@@ -355,27 +346,8 @@ const Navbar = () => {
 
             </div>
 
-            {/* CTA */}
-            <div className="mt-auto p-5">
+            
 
-              <a
-                href={`https://zalo.me/${PHONE}`}
-                target="_blank"
-                rel="noreferrer"
-                className="
-                  flex items-center justify-center
-                  bg-[#ED3524]
-                  text-white
-                  py-3
-                  rounded-xl
-                  font-semibold
-                  shadow-md
-                "
-              >
-                Nhận tư vấn ngay
-              </a>
-
-            </div>
 
           </div>
 
