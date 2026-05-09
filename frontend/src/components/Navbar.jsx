@@ -53,6 +53,7 @@ const Navbar = () => {
       >
         <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
 
+          {/* TOP BAR */}
           <div className="flex items-center justify-between h-[68px] lg:h-[78px]">
 
             {/* LEFT */}
@@ -126,44 +127,10 @@ const Navbar = () => {
                   type="text"
                   placeholder="Tìm sản phẩm..."
                   className="
-                  font-montserrat
+                    font-montserrat
                     bg-transparent
                     outline-none
                     px-3
-                    text-sm
-                    w-full
-                  "
-                />
-
-              </div>
-
-              {/* SEARCH MOBILE */}
-              <div
-                className="
-                  md:hidden
-                  flex items-center
-                  bg-[#f5f5f5]
-                  border border-gray-300
-                  rounded-full
-                  px-3
-                  h-[38px]
-                  w-[130px]
-                "
-              >
-
-                <img
-                  src={search}
-                  alt="Search"
-                  className="w-4 opacity-70"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Tìm..."
-                  className="
-                    bg-transparent
-                    outline-none
-                    ml-2
                     text-sm
                     w-full
                   "
@@ -255,6 +222,44 @@ const Navbar = () => {
 
             </div>
           </div>
+
+          {/* MOBILE SEARCH BELOW */}
+          <div className="md:hidden pb-3">
+
+            <div
+              className="
+                flex items-center
+                bg-[#f5f5f5]
+                border border-gray-300
+                rounded-full
+                px-4
+                h-[42px]
+              "
+            >
+
+              <img
+                src={search}
+                alt="Search"
+                className="w-4 opacity-70"
+              />
+
+              <input
+                type="text"
+                placeholder="Tìm sản phẩm..."
+                className="
+                  font-montserrat
+                  bg-transparent
+                  outline-none
+                  ml-3
+                  text-sm
+                  w-full
+                "
+              />
+
+            </div>
+
+          </div>
+
         </div>
 
         {/* OVERLAY */}
@@ -288,7 +293,7 @@ const Navbar = () => {
             {/* TOP */}
             <div className="flex items-center justify-between px-5 h-[68px] border-b">
 
-              <span className="font-montserrat font-bold text-lg">
+              <span className="font-bold text-lg">
                 MENU
               </span>
 
@@ -346,16 +351,13 @@ const Navbar = () => {
 
             </div>
 
-            
-
-
           </div>
 
         </div>
       </header>
 
       {/* SPACER */}
-      <div className="h-[68px] lg:h-[78px]"></div>
+      <div className="h-[120px] lg:h-[78px]"></div>
     </>
   )
 }
