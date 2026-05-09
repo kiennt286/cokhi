@@ -11,6 +11,7 @@ const normalizeProductPayload = (payload) => {
     price: Number(payload.price ?? 0),
     image: Array.isArray(payload.image) ? payload.image : [],
     description: payload.description || "",
+    detailedDescription: payload.detailedDescription || "",
     category: payload.category || "",
     stock: Number(payload.stock ?? 0),
     rating: Number(payload.rating ?? 0),

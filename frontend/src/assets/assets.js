@@ -79,27 +79,3 @@ export const collectionGroups = [
 // Kept for compatibility with existing components (e.g. BrandShowcase).
 export const brandLogos = {}
 
-const groupNumbers = [
-  3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 83, 84, 85, 86,
-]
-
-export const products = collectionGroups.map((img, idx) => {
-  const n = groupNumbers[idx]
-  return {
-    _id: String(idx + 1),
-    slug: `group-${n}`,
-    name: `Nhóm hình ${n}`,
-    brand: "Dụng cụ CNC Bắc Ninh",
-    brandSlug: "dung-cu-cnc-bac-ninh",
-    price: 0,
-    image: [img],
-    description: `Hình nhóm sản phẩm ${n}. Liên hệ để được tư vấn và báo giá.`,
-    category: idx % 2 === 0 ? "Nam" : "Nữ",
-    stock: 999,
-    rating: 5,
-    reviews: 0,
-    bestseller: true,
-    discount: 0,
-    createdAt: "2026-05-04",
-  }
-})

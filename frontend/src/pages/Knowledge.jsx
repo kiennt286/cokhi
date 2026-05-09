@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import BreadcrumbBar from '../components/BreadcrumbBar';
 import { api } from "../lib/api";
+import Seo from '../components/Seo';
 
 const Knowledge = () => {
   const [posts, setPosts] = React.useState([]);
@@ -28,7 +29,12 @@ const Knowledge = () => {
   }, []);
 
   return (
-    <div className="border-t border-gray-300 pt-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
+    <div className="pt-8 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
+      <Seo
+        title="Kiến thức cơ khí"
+        description="Tổng hợp bài viết kỹ thuật về dao cụ, gia công CNC và kinh nghiệm thực tế trong cơ khí."
+        path="/kien-thuc"
+      />  
       <div className="mb-4">
         <BreadcrumbBar items={[{ label: 'Trang chủ', to: '/' }, { label: 'Kiến thức cơ khí' }]} />
       </div>

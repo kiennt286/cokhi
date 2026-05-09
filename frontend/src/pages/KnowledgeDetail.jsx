@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import BreadcrumbBar from '../components/BreadcrumbBar';
 import { api } from "../lib/api";
+import Seo from '../components/Seo';
 
 const KnowledgeDetail = () => {
   const { slug } = useParams();
@@ -57,7 +58,12 @@ const KnowledgeDetail = () => {
   // ❌ Not found
   if (!post) {
     return (
-      <div className="border-t border-gray-300 pt-10 pb-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
+      <div className=" pt-8 pb-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
+        <Seo
+          title="Không tìm thấy bài viết"
+          description="Bài viết bạn tìm kiếm hiện không tồn tại hoặc đã được cập nhật."
+          path={`/kien-thuc/${slug}`}
+        />
         <BreadcrumbBar
           items={[
             { label: 'Trang chủ', to: '/' },
@@ -85,7 +91,13 @@ const KnowledgeDetail = () => {
   }
 
   return (
-    <div className="border-t border-gray-300 pt-10 pb-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
+    <div className=" pt-8 pb-16 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
+      <Seo
+        title={post.title}
+        description={post.excerpt || "Bài viết kỹ thuật cơ khí tại CNC Bắc Ninh."}
+        path={`/kien-thuc/${slug}`}
+        image={post.cover}
+      />
 
       {/* Breadcrumb */}
       <BreadcrumbBar

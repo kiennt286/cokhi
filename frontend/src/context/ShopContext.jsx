@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState} from "react";
-import { products } from "../assets/assets";
 import { api } from "../lib/api";
 
 export const ShopContext = createContext();
@@ -8,7 +7,7 @@ export const ShopContext = createContext();
 const ShopContextProvider = ({ children }) => {
 
   const [cartItems, setCartItems] = useState({});
-  const [productList, setProductList] = useState(products);
+  const [productList, setProductList] = useState([]);
 
   const currency = "VNĐ";
 
@@ -81,7 +80,7 @@ const ShopContextProvider = ({ children }) => {
   const getCartSubtotal = () => {
     let subtotal = 0;
     for (const productId in cartItems) {
-      const product = products.find(p => p._id === productId);
+      const product = productList.find(p => p._id === productId);
       if (!product) continue;
       for (const size in cartItems[productId]) {
         const qty = cartItems[productId][size];
@@ -99,11 +98,13 @@ const ShopContextProvider = ({ children }) => {
     const fetchProducts = async () => {
       try {
         const data = await api.getProducts();
-        if (isMounted && Array.isArray(data?.products) && data.products.length > 0) {
+        if (isMounted && Array.isArray(data?.products)) {
           setProductList(data.products);
         }
       } catch {
-        // keep fallback static products when API is unavailable
+        if (isMounted) {
+          setProductList([]);
+        }
       }
     };
 

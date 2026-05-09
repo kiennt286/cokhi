@@ -25,14 +25,7 @@ const FloatingContactButtons = () => {
         />
       </a>
 
-      {/* Call */}
-      <a
-        href={telHref}
-        className="flex items-center justify-center w-14 h-14 rounded-full bg-red-500 text-white shadow-lg hover:bg-red-600 hover:scale-105 transition"
-        aria-label="Gọi tư vấn"
-      >
-        <span className="text-lg font-bold">☎</span>
-      </a>
+    
 
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
+import Seo from '../components/Seo';
 
 const PlaceOrder = () => {
 	const { products, cartItems, formatPrice, getCartSubtotal } = useContext(ShopContext)
@@ -56,7 +57,13 @@ const PlaceOrder = () => {
 	}
 
 	return (
-		<div className="border-t pt-10 pb-16">
+		<div className=" pt-8 pb-16">
+			<Seo
+				title="Thanh toán"
+				description="Trang thanh toán đơn hàng tại CNC Bắc Ninh."
+				path="/place-order"
+				noIndex={true}
+			/>
 			<div className="flex items-center gap-3 mb-8">
 				<Link to="/cart" className="text-sm text-gray-600 hover:text-black">&larr;</Link>
 				<h1 className="font-gunken text-2xl font-semibold">CHECKOUT</h1>
@@ -161,7 +168,7 @@ const PlaceOrder = () => {
 						</div>
 
 						<div className="mt-6 space-y-2 text-xs">
-							<div className="flex justify-between py-2 border-t border-gray-300">
+							<div className="flex justify-between py-2">
 								<span>Subtotal</span>
 								<span className="font-medium">{formatPrice(subtotal)}</span>
 							</div>
@@ -169,7 +176,7 @@ const PlaceOrder = () => {
 								<span>Shipping</span>
 								<span className="text-gray-500">Calculated at next step</span>
 							</div>
-							<div className="flex justify-between py-2 border-t border-gray-300 text-sm">
+							<div className="flex justify-between py-2 text-sm">
 								<span className="font-semibold">Total</span>
 								<span className="font-semibold">{formatPrice(subtotal)}</span>
 							</div>

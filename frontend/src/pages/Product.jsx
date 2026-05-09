@@ -11,10 +11,11 @@ import { ShopContext } from '../context/ShopContext';
 import leftIcon from '../assets/left.png'; 
 import rightIcon from '../assets/right.png';
 import BreadcrumbBar from '../components/BreadcrumbBar';
+import Seo from '../components/Seo';
 
 const Product = () => {
   const { brand, slug } = useParams();
-  const { addToCart, products } = useContext(ShopContext);
+  const { products } = useContext(ShopContext);
 
   // Refs
   const thumbsSwiperRef = useRef(null);
@@ -27,7 +28,6 @@ const Product = () => {
   );
 
   // Core states
-  const [activeTab, setActiveTab] = useState('additional');
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [canSlidePrev, setCanSlidePrev] = useState(false);
   const [canSlideNext, setCanSlideNext] = useState(false);
@@ -59,7 +59,13 @@ const Product = () => {
   if (!product) return <div className="p-6 text-center">Không tìm thấy sản phẩm</div>;
 
   return (
-    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw] border-t border-gray-300 pt-10">
+    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw] pt-8">
+      <Seo
+        title={product.name}
+        description={product.detailedDescription || `Chi tiết ${product.name}. Liên hệ CNC Bắc Ninh để được tư vấn và báo giá.`}
+        path={`/${brand}/${slug}`}
+        image={product.image?.[0]}
+      />
       <div className="mb-4">
         <BreadcrumbBar
           items={[
@@ -202,93 +208,43 @@ const Product = () => {
 
         {/* Product Info */}
         <div className="flex-1">
-          <h1 className="font-montserrat text-2xl font-bold mt-2">{product.name}</h1>
-          <p className="font-montserrat mt-5 text-gray-600">{product.brand}</p>
-          <p className="font-montserrat text-2xl mt-5 font-semibold text-primary">
-            {product.price.toLocaleString()} VNĐ
-          </p>
+          <p className="font-montserrat text-sm uppercase tracking-[0.2em] text-gray-500">{product.brand}</p>
+          <h1 className="font-montserrat text-2xl md:text-3xl font-bold mt-3">{product.name}</h1>
 
-          <p className="font-montserrat mt-5 font-medium text-gray-500 md:w-4/5">{product.description}</p>
+          <div className="mt-8 border border-gray-200 bg-[#f8fafc] p-5 sm:p-6">
+            <p className="font-montserrat font-semibold text-lg">Nhận báo giá theo nhu cầu</p>
+            <p className="font-montserrat text-gray-600 mt-2 leading-7">
+              Sản phẩm được tư vấn theo cấu hình và số lượng thực tế. Để nhận báo giá chính xác,
+              vui lòng liên hệ đội ngũ của chúng tôi.
+            </p>
 
-          <button
-            className="mt-6 bg-[#000000] text-white font-semibold py-3 px-12 hover:bg-[#414141] transition-colors self-start cursor-pointer"
-            onClick={() => addToCart(product._id)}
-          >
-            Thêm vào giỏ hàng
-          </button>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a
+                href="https://zalo.me/84966148632"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 min-w-[220px] bg-white text-[#0068ff] font-semibold py-3 px-8 border border-gray-200 shadow-lg hover:scale-105 transition"
+              >
+                <img src="/icon_zalo.png" alt="Zalo" className="w-5 h-5 object-contain" />
+                <span>Liên hệ qua Zalo</span>
+              </a>
+              <a
+                href="tel:1900-0000"
+                className="inline-flex items-center justify-center min-w-[220px] bg-[#ef4444] text-white font-semibold py-3 px-8 border border-[#ef4444] shadow-lg hover:bg-[#dc2626] hover:border-[#dc2626] hover:scale-105 transition"
+              >
+                Gọi tư vấn nhanh
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="font-montserrat mt-20 border-t border-b border-gray-300 -mx-4 sm:-mx-[5vw] md:-mx-[7vw] lg:-mx-[8vw]">
-        <div className="flex gap-6 pt-8 text-xl justify-center">
-          <button
-            className={`cursor-pointer pb-2 font-semibold transition-colors ${activeTab === 'additional' ? 'text-black' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('additional')}
-          >
-            Thông Số Kỹ Thuật
-          </button>
-          <button
-            className={`cursor-pointer pb-2 font-semibold transition-colors ${activeTab === 'reviews' ? 'text-black' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('reviews')}
-          >
-            {`Đánh giá [${product.reviews ?? 0}]`}
-          </button>
-        </div>
-
-        <div className="py-8 text-sm px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw]">
-          {activeTab === 'additional' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
-              <div className="space-y-2">
-                {product.caseDiameter && product.caseThickness && (
-                  <div className="border-b border-gray-300 pb-2 last:border-b-0">
-                    <p className="font-semibold">Kích thước vỏ (Đường kính × Độ dày)</p>
-                    <p>{product.caseDiameter} × {product.caseThickness} mm</p>
-                  </div>
-                )}
-                {product.materials && (
-                  <div className="border-b border-gray-300 pb-2 last:border-b-0">
-                    <p className="font-semibold">Vật liệu</p>
-                    <p>{product.materials}</p>
-                  </div>
-                )}
-                {product.movement && (
-                  <div className="border-b border-gray-300 pb-2 last:border-b-0">
-                    <p className="font-semibold">Cấu trúc máy</p>
-                    <p>{product.movement}</p>
-                  </div>
-                )}
-                {product.warranty && (
-                  <div className="border-b border-gray-300 pb-2 last:border-b-0">
-                    <p className="font-semibold">Bảo hành</p>
-                    <p>{product.warranty}</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                {product.stock && (
-                  <div className="border-b border-gray-300 pb-2 last:border-b-0">
-                    <p className="font-semibold">Trọng lượng</p>
-                    <p>{product.stock} g</p>
-                  </div>
-                )}
-            
-                {product.waterResistance && (
-                  <div className="border-b border-gray-300 pb-2 last:border-b-0">
-                    <p className="font-semibold">Chống nước</p>
-                    <p>{product.waterResistance}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'reviews' && (
-            <div className="text-gray-600">
-              Chưa có đánh giá cho sản phẩm này.
-            </div>
-          )}
+      <div className="mt-8 border-y border-gray-200 py-8">
+        <div className="max-w-4xl">
+          <h2 className="font-montserrat text-2xl font-semibold mt-2">Chi tiết sản phẩm</h2>
+          <p className="font-montserrat text-gray-700 leading-8 mt-4 whitespace-pre-line">
+            {product.detailedDescription || "Đang cập nhật mô tả cho sản phẩm này."}
+          </p>
         </div>
       </div>
 

@@ -9,8 +9,8 @@ const emptyForm = {
   brand: "",
   brandSlug: "",
   price: 0,
-  image: "",
-  description: "",
+  image: [],
+  detailedDescription: "",
   category: "",
   stock: 0,
   rating: 0,
@@ -26,6 +26,7 @@ const AdminProducts = ({ mode = "list" }) => {
   const token = adminAuth.getToken();
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(emptyForm);
+  const [imageUrls, setImageUrls] = useState([""]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -55,10 +56,12 @@ const AdminProducts = ({ mode = "list" }) => {
     if (mode === "edit" && editingProduct) {
       setForm({
         ...editingProduct,
-        image: (editingProduct.image || []).join("\n"),
+        image: editingProduct.image || [],
       });
+      setImageUrls(editingProduct.image?.length ? editingProduct.image : [""]);
     } else if (mode === "new") {
       setForm(emptyForm);
+      setImageUrls([""]);
     }
   }, [editingProduct, mode]);
 
@@ -75,10 +78,7 @@ const AdminProducts = ({ mode = "list" }) => {
 
     const payload = {
       ...form,
-      image: String(form.image)
-        .split("\n")
-        .map((item) => item.trim())
-        .filter(Boolean),
+      image: imageUrls.map((item) => item.trim()).filter(Boolean),
       price: Number(form.price),
       stock: Number(form.stock),
       rating: Number(form.rating),
@@ -98,6 +98,21 @@ const AdminProducts = ({ mode = "list" }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleImageChange = (index, value) => {
+    setImageUrls((prev) => prev.map((item, idx) => (idx === index ? value : item)));
+  };
+
+  const addImageField = () => {
+    setImageUrls((prev) => [...prev, ""]);
+  };
+
+  const removeImageField = (index) => {
+    setImageUrls((prev) => {
+      if (prev.length === 1) return [""];
+      return prev.filter((_, idx) => idx !== index);
+    });
   };
 
   if (mode === "list") {
@@ -144,42 +159,95 @@ const AdminProducts = ({ mode = "list" }) => {
   }
 
   return (
-    <section className="max-w-3xl">
+    <section className="max-w-4xl">
       <h1 className="text-2xl font-bold mb-4">{mode === "edit" ? "Sửa sản phẩm" : "Thêm sản phẩm"}</h1>
       <form onSubmit={handleSubmit} className="bg-white border p-4 space-y-3">
         {error ? <p className="text-red-600">{error}</p> : null}
-        {["slug", "name", "brand", "brandSlug", "category", "createdAtText"].map((field) => (
-          <input
-            key={field}
-            className="w-full border p-2"
-            placeholder={field}
-            value={form[field] ?? ""}
-            onChange={(event) => setForm((prev) => ({ ...prev, [field]: event.target.value }))}
-            required={["slug", "name", "brand", "brandSlug"].includes(field)}
-          />
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {[
+            ["slug", "Slug"],
+            ["name", "Tên sản phẩm"],
+            ["brand", "Thương hiệu"],
+            ["brandSlug", "Brand slug"],
+            ["category", "Danh mục"],
+            ["createdAtText", "Ngày hiển thị"],
+          ].map(([field, label]) => (
+            <label key={field} className="space-y-1">
+              <span className="text-sm text-gray-600">{label}</span>
+              <input
+                className="w-full border p-2"
+                placeholder={field}
+                value={form[field] ?? ""}
+                onChange={(event) => setForm((prev) => ({ ...prev, [field]: event.target.value }))}
+                required={["slug", "name", "brand", "brandSlug"].includes(field)}
+              />
+            </label>
+          ))}
+        </div>
         <textarea
-          className="w-full border p-2"
-          placeholder="description"
-          value={form.description ?? ""}
-          onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
+          className="w-full border p-2 min-h-40"
+          placeholder="Mô tả chi tiết (nội dung dài)"
+          value={form.detailedDescription ?? ""}
+          onChange={(event) => setForm((prev) => ({ ...prev, detailedDescription: event.target.value }))}
         />
-        <textarea
-          className="w-full border p-2"
-          placeholder="image URLs, mỗi dòng 1 link"
-          value={form.image ?? ""}
-          onChange={(event) => setForm((prev) => ({ ...prev, image: event.target.value }))}
-        />
-        <div className="grid grid-cols-2 gap-3">
-          {["price", "stock", "rating", "reviews", "discount"].map((field) => (
-            <input
-              key={field}
-              className="border p-2"
-              placeholder={field}
-              type="number"
-              value={form[field] ?? 0}
-              onChange={(event) => setForm((prev) => ({ ...prev, [field]: event.target.value }))}
-            />
+        <div className="border p-3 space-y-3">
+          <div className="flex items-center justify-between">
+            <p className="font-semibold">Hình ảnh sản phẩm</p>
+            <button type="button" className="border px-3 py-1 text-sm" onClick={addImageField}>
+              + Thêm ảnh
+            </button>
+          </div>
+          {imageUrls.map((url, index) => (
+            <div key={index} className="space-y-2">
+              <div className="flex gap-2">
+                <input
+                  className="w-full border p-2"
+                  placeholder={`URL ảnh ${index + 1}`}
+                  value={url}
+                  onChange={(event) => handleImageChange(index, event.target.value)}
+                />
+                <button
+                  type="button"
+                  className="border px-3 py-2 text-red-600"
+                  onClick={() => removeImageField(index)}
+                >
+                  Xóa
+                </button>
+              </div>
+              {url ? (
+                <img
+                  src={url}
+                  alt={`preview-${index}`}
+                  className="h-20 w-20 object-cover border"
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                  }}
+                  onLoad={(event) => {
+                    event.currentTarget.style.display = "block";
+                  }}
+                />
+              ) : null}
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          {[
+            ["price", "Giá"],
+            ["stock", "Kho"],
+            ["rating", "Rating"],
+            ["reviews", "Reviews"],
+            ["discount", "Giảm giá"],
+          ].map(([field, label]) => (
+            <label key={field} className="space-y-1">
+              <span className="text-sm text-gray-600">{label}</span>
+              <input
+                className="w-full border p-2"
+                placeholder={field}
+                type="number"
+                value={form[field] ?? 0}
+                onChange={(event) => setForm((prev) => ({ ...prev, [field]: event.target.value }))}
+              />
+            </label>
           ))}
         </div>
         <label className="flex items-center gap-2">

@@ -7,7 +7,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "seed:admin": "node scripts/seedAdmin.js",
-    "seed:content": "node scripts/seedContent.js"
+    "seed:content": "node scripts/seedContent.js",
+    "seed:groups": "node scripts/seedGroupProducts.js"
   },
   "author": "",
   "license": "ISC",

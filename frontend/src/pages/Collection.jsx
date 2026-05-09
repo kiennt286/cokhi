@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import ProductItem from '../components/ProductItem';
 import BreadcrumbBar from '../components/BreadcrumbBar';
+import Seo from '../components/Seo';
 
 const Collection = () => {
   const { products } = useContext(ShopContext);
@@ -58,7 +59,12 @@ const Collection = () => {
   }, [categoryFilter, brandFilter, products]);
 
   return (
-    <div className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw] pt-10 border-t border-gray-300 transition-opacity duration-300 ease-in ${visible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[8vw] pt-8 transition-opacity duration-300 ease-in ${visible ? 'opacity-100' : 'opacity-0'}`}>
+      <Seo
+        title="Bộ sưu tập sản phẩm"
+        description="Khám phá danh mục sản phẩm CNC tại CNC Bắc Ninh. Liên hệ để được tư vấn kỹ thuật và báo giá phù hợp."
+        path="/collection"
+      />
 
       <div className="flex flex-col sm:flex-row gap-1 sm:gap-10">
 

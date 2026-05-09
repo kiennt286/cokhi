@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
+import Seo from '../components/Seo';
 
 const Cart = () => {
   const {
@@ -31,7 +32,13 @@ const Cart = () => {
 
   if (cartData.length === 0) {
     return (
-      <div className="border-t pt-14 pb-20 text-center">
+      <div className="pt-14 pb-20 text-center">
+        <Seo
+          title="Giỏ hàng"
+          description="Giỏ hàng sản phẩm tại CNC Bắc Ninh."
+          path="/cart"
+          noIndex={true}
+        />
         <h2 className="text-2xl font-semibold mb-4">Giỏ hàng trống</h2>
         <p className="text-gray-600 mb-6">Hãy thêm sản phẩm để tiếp tục mua sắm.</p>
         <Link
@@ -45,7 +52,13 @@ const Cart = () => {
   }
 
   return (
-    <div className="border-t pt-10 pb-24">
+    <div className=" pt-8 pb-24">
+      <Seo
+        title="Giỏ hàng"
+        description="Giỏ hàng sản phẩm tại CNC Bắc Ninh."
+        path="/cart"
+        noIndex={true}
+      />
       <h1 className="text-2xl font-semibold mb-6">Giỏ hàng</h1>
 
       <div className="space-y-4">
